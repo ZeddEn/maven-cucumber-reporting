@@ -14,6 +14,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.StringUtils;
 
+import net.masterthought.cucumber.json.support.Status;
 import net.masterthought.cucumber.reducers.ReducingMethod;
 
 /**
@@ -121,6 +122,7 @@ public class CucumberReportGeneratorMojo extends AbstractMojo {
      * @parameter default-value="false"
      */
     private Boolean treatSkippedAsFailed;
+    
 
     /**
      * Additional attributes to classify current test run.
@@ -187,6 +189,7 @@ public class CucumberReportGeneratorMojo extends AbstractMojo {
         try {
             Configuration configuration = new Configuration(outputDirectory, projectName);
             configuration.setBuildNumber(buildNumber);
+            configuration.setNotFailingStatuses(Collections.singleton(Status.SKIPPED));
             if (mergeFeaturesById) {
                 configuration.addReducingMethod(ReducingMethod.MERGE_FEATURES_BY_ID);
             }
