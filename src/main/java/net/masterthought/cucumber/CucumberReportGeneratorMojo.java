@@ -116,6 +116,13 @@ public class CucumberReportGeneratorMojo extends AbstractMojo {
     private Boolean treatPendingAsFailed;
 
     /**
+     * Treat 'skipped' steps as failures when using checkBuildResult=true.
+     *
+     * @parameter default-value="false"
+     */
+    private Boolean treatSkippedAsFailed;
+
+    /**
      * Additional attributes to classify current test run.
      *
      * @parameter
@@ -210,6 +217,7 @@ public class CucumberReportGeneratorMojo extends AbstractMojo {
 
             if (checkBuildResult && (report == null || report.getFailedSteps() > 0 ||
                     (treatUndefinedAsFailed && report.getUndefinedSteps() > 0) ||
+                    (treatSkippedAsFailed && report.getSkippedSteps() > 0) ||
                     (treatPendingAsFailed && report.getPendingSteps() > 0))) {
                 throw new MojoExecutionException("BUILD FAILED - Check Report For Details");
             }
